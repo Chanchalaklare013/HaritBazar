@@ -15,10 +15,10 @@ export class CategoryServices {
     }
   }
 
-  static async createCategory(category_name, data) {
+  static async createCategory(categoryName, data) {
     try {
       const category = await Category.findOne({
-        categoryName: { $regex: `^${category_name}$`, $options: 'i' },
+        categoryName: { $regex: `^${categoryName}$`, $options: 'i' },
       });
       if (!category) {
         const newCategory = await Category.create(data);
@@ -81,9 +81,18 @@ export class CategoryServices {
       console.log(err);
     }
   }
-  static async getAllCategories(vendorId) {
+  static async getAllCategoriesByVendor(vendorId) {
     try {
       const category = await Category.find({ vendor_id: vendorId });
+      if (category) return category;
+      else return false;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  static async getAllCategories() {
+    try {
+      const category = await Category.find();
       if (category) return category;
       else return false;
     } catch (err) {

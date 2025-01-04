@@ -14,6 +14,7 @@ const ProductSchema = new mongoose.Schema({
     quantity: { type: Number },
     buyCount: {type: Number},
     viewCount: {type: Number},
+    // discount: {type: Double}
     isActive: { type: Boolean, default: true }
 });
 

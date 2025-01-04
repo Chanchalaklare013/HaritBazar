@@ -1,8 +1,7 @@
-import { response } from 'express';
 import { Product } from '../models/product.model.js';
 
-class ProductServices {
-  async createBulk(data) {
+export class ProductServices {
+  static async createBulk(data) {
     try {
       let status = await Product.insertMany(data);
       if (status) {
@@ -144,5 +143,5 @@ class ProductServices {
      }
   }
 
-  
+
 }

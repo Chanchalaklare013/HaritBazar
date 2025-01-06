@@ -61,7 +61,7 @@ export const getAllCategories = async (request, response, next) => {
         if (category) {
           response.send(category);
         } else {
-          response.send('Error while deleting the category');
+          response.send('Internal Server Error: Category.controller.js');
         }
       } catch (err) {
         console.log(err);

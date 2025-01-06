@@ -30,7 +30,6 @@ export class UserService {
       request.body.password = encryptedPassword;
       
       const user = await User.create(request.body);
-      console.log(user);
       return user ?  true :  false ;
       // response.status(201).json({ message: "Sign up success", user });
     } catch (err) {

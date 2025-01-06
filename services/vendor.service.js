@@ -2,7 +2,7 @@ import { Vendor } from "../models/vendor.model.js";
 
 class VendorService {
 
-    async createVendor(vendorData) {
+    static async createVendor(vendorData) {
         try {
             const newVendor = new Vendor(vendorData);
             await newVendor.save();

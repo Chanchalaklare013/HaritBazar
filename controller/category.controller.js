@@ -17,12 +17,11 @@ export const createBulk = async (request, response, next) => {
 export const createCategory = async (request, response, next) => {
   try {
     let categoryName = request.body.categoryName;
-
-    let category = CategoryServices.createCategory(categoryName, request.body);
+    let category = await CategoryServices.createCategory(categoryName, request.body);
     if (category) {
       response.send('Category created successfully');
     } else {
-      response.send('Error while creating the category');
+      response.send('Category already exist');
     }
   } catch (err) {
     console.log(err);
@@ -30,9 +29,9 @@ export const createCategory = async (request, response, next) => {
 };
 export const updateCategory = async (request, response, next) => {
     try {
-        let categoryId = request.body.categoryId;
-    
-        let category = CategoryServices.updateCategory(categoryId, request.body);
+        let categoryId = request.params.categoryId;
+        let category = await CategoryServices.updateCategory(categoryId, request.body);
+        console.log(category);
         if (category) {
           response.send('Category updated successfully');
         } else {
@@ -44,9 +43,9 @@ export const updateCategory = async (request, response, next) => {
 };
 export const deleteCategory = async (request, response, next) => {
     try {
-        let categoryId = request.body.categoryId;
+        let categoryId = request.params.categoryId;
     
-        let category = CategoryServices.deleteCategory(categoryId);
+        let category = await CategoryServices.deleteCategory(categoryId);
         if (category) {
           response.send('Category deleted successfully');
         } else {
@@ -58,10 +57,9 @@ export const deleteCategory = async (request, response, next) => {
 };
 export const getAllCategories = async (request, response, next) => {
     try {
-    
-        let category = CategoryServices.getAllCategories();
+        let category = await CategoryServices.getAllCategories();
         if (category) {
-          response.send('Category deleted successfully');
+          response.send(category);
         } else {
           response.send('Error while deleting the category');
         }

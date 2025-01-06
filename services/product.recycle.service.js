@@ -27,3 +27,5 @@ export async function getRecycleById(id) {
   {
     return await DeadProduct.findByIdAndDelete(id);
   }
+
+  export const recycleService = ()=>{}

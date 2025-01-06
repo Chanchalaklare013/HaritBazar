@@ -27,3 +27,5 @@ export async function getDonationById(id) {
   {
     return await DeadProduct.findByIdAndDelete(id);
   }
+
+  export const donationService = ()=>{}

@@ -10,4 +10,5 @@ const DeadProductsSchema = new mongoose.Schema({
     status: { type: String, enum: ['Completed', 'Pending'], required: true }
 });
 
-export const DeadProduct = mongoose.model('DeadProduct', DeadProductsSchema);
+const DeadProduct = mongoose.model('DeadProduct', DeadProductsSchema);
+export default DeadProduct

@@ -18,15 +18,13 @@ export class CategoryServices {
   static async createCategory(categoryName, data) {
     try {
       const category = await Category.findOne({
-        categoryName: { $regex: `^${categoryName}$`, $options: 'i' },
+        categoryName: { $regex: `^${categoryName}$`, $options: 'i' }
       });
       if (!category) {
         const newCategory = await Category.create(data);
         if (newCategory) {
           return true;
-        } else {
-          return false;
-        }
+        } else return false;
       } else {
         console.log('Category already exist');
         return false;
@@ -64,7 +62,7 @@ export class CategoryServices {
 
   static async updateCategory(categoryId, data) {
     try {
-      const category = await Category.updateOne({ _id: categoryId }, { data });
+      const category = await Category.updateOne({ _id: categoryId },  data );
       if (category) return true;
       else return false;
     } catch (err) {

@@ -136,7 +136,7 @@ export class ProductServices {
           category_id: product.category_id,
           isActive: true
         }).limit(5); 
-    
+     
         return recommendations;
      }catch(err){
         console.log(err);

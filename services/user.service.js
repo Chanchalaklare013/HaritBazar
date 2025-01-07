@@ -64,11 +64,7 @@ export class UserService {
     try {
       const id = request.params.id;
       const result = await User.findOne({ id });
-      if (result) {
-        return response.status(200).json({ message: result });
-      } else {
-        return response.status(404).json({ message: "User not found" });
-      }
+      
     } catch (err) {
       console.log(err);
       return response.status(500).json({ error: "Internal Server Error" });

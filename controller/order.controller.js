@@ -50,3 +50,19 @@ export const cancelOrder = async (request, response, next) => {
     console.log(err);
   }
 };
+
+export const bulkOrder =  async(request, response, next) => {
+  try{
+    
+
+    const orders= cartServices.getCart(user_id);
+    const isPlaced = await OrderServices.bulkOrder(orders);
+    if(isPlaced){
+      response.send("order placed succesfully");
+    }else{
+      response.send("error while placing the order");
+    }
+  }catch(err){
+    console.log(err);
+  }
+}

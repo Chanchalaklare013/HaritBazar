@@ -61,7 +61,7 @@ export const getAllCategories = async (request, response, next) => {
     
         let category = CategoryServices.getAllCategories();
         if (category) {
-          response.send('Category deleted successfully');
+          response.send('fetched all Categories successfully');
         } else {
           response.send('Error while deleting the category');
         }
@@ -75,9 +75,9 @@ export const getAllCategoryByVendor = async (request, response, next) => {
     
         let category = CategoryServices.getAllCategoriesByVendor(vendorId);
         if (category) {
-          response.send('Category deleted successfully');
+          response.send('fetched all vendor Category  successfully');
         } else {
-          response.send('Error while deleting the category');
+          response.send('Error while fetching vendor the category');
         }
       } catch (err) {
         console.log(err);
@@ -88,9 +88,9 @@ export const getAllProductsByCategoryId = async (request, response, next) => {
          let categoryId = request.body.categoryId;
         let category = CategoryServices.getAllProductsOfCategoryById(categoryId);
         if (category) {
-          response.send('Category deleted successfully');
+          response.send(' fectched products of category');
         } else {
-          response.send('Error while deleting the category');
+          response.send('error while fectching products of category');
         }
       } catch (err) {
         console.log(err);

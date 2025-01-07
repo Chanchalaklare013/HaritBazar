@@ -12,9 +12,9 @@ const ProductSchema = new mongoose.Schema({
     isRecycled: { type: Boolean, default: false },
     type: { type: String, enum: ['EcoFriendly', 'Reusable', 'Biodegradable'] },
     quantity: { type: Number },
-    buyCount: {type: Number},
-    viewCount: {type: Number},
-    // discount: {type: Double}
+    buyCount: {type: Number, default: 0},
+    viewCount: {type: Number, default: 0},
+    discount: {type: mongoose.Schema.Types.Double, default:0.0},
     isActive: { type: Boolean, default: true }
 });
 

@@ -10,7 +10,7 @@ export class OrderServices {
         const userId = user.user_id;
         const orders = await Order.find({ user_id: userId });
         if (orders) return orders;
-        else false;
+        return false;
       } else {
         return false;
       }
@@ -50,7 +50,7 @@ export class OrderServices {
       const order = await Order.findById(orderId);
       if (order) {
         order.orderStatus = 'Cancelled';
-        order.save();
+        await order.save();
         return true;
       } else false;
     } catch (err) {
@@ -60,11 +60,10 @@ export class OrderServices {
 
   static async placeOrder(orderDetails) {
     try {
-       
-      let totalAmount = countTotalAmount(orderDetails);
+      let totalAmount = this.countTotalAmount(orderDetails);
       const order = await Order.create(orderDetails);
       if (order) {
-        return json({orderDetails: order, total: totalAmount});
+        return { orderDetails: order, total: totalAmount };
       } else return false;
     } catch (err) {
       console.log(err);
@@ -73,52 +72,57 @@ export class OrderServices {
 
   static async bulkOrder(orderDetails) {
     try {
-      let allPlaced=  true;
-      for (let order of orderDetails) {
-        let result = this.placeOrder(order);
+      let total = 0;
+      const placedOrders = [];
+  
+      for (const order of orderDetails) {
+        const result = await this.placeOrder(order);
         if (!result) {
-          allPlaced = false;
-          break;
-        } 
-      }
-
-      if(allPlaced){
-        return true;
-      }else{
-        return false;
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  static async countTotalAmount(orderDetails){
-    try{
-        // orderItems: [
-      //   {
-      //     product_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
-      //     quantity: { type: Number, required: true },
-      //   },
-      // ],
-      let bulkAmount = 0;
-      if(orderDetails.length == 1){
-
-        let product = ProductServices.getProductById(orderItems[0].product_id);
-        let quantity = orderDetails.orderItems[0].quantity;
-        let totalAmount = product.price*quantity;
-        return totalAmount;
-      } else{
-        for(let order in orderDetails){
-          let product = ProductServices.getProductById(orderItems[i].product_id);
-          let quantity = orderDetails.orderItems[i].quantity;
-          bulkAmount += product.price*quantity;
+          for (const placedOrder of placedOrders) {
+            await this.cancelOrder(placedOrder.id);
+          }
+          return {message:`Failed to place order for details: ${(order)}` };
         }
-
-        return bulkAmount;
+        placedOrders.push(result); 
+        total += result.totalAmount;
       }
-
-    }catch(err){
-      console.log(err);
+  
+      return {
+        message: "Orders placed successfully",
+        totalAmount: total,
+      };
+    } catch (err) {
+      console.error("Error placing bulk orders:", err);
+      throw err;
     }
   }
+  
+
+  static async countTotalAmount(orderDetails) {
+    try {
+
+      const orderItems = orderDetails.orderItems;
+
+      if (!orderItems || orderItems.length === 0) {
+        throw new Error("No items found in the order.");
+      }
+
+        let totalAmount = 0;
+        for (let i in orderItems) {
+          let product = await ProductServices.getProductById(orderItems[i].product_id);
+          if(!product){
+            return json({message: "Product not found"});
+          }
+          let quantity = orderItems[i].quantity;
+          totalAmount += product.price * quantity;
+        }
+        return totalAmount;
+      }
+
+
+   catch (err) {
+      console.log ("Error calculating the total", err);
+    }
+  }
+
 }

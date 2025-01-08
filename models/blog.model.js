@@ -9,8 +9,7 @@ const BlogSchema = new mongoose.Schema({
     author: { type: String, required: true },
     tags: [{ type: String }],
     rating: { type: Number },
-    publishedDate: { type: Date, default: Date.now },
-    isActive: {type: Boolean, default: true}
+    publishedDate: { type: Date, default: Date.now }
 });
 console.log(BlogSchema)
 export const Blog = mongoose.model('Blog', BlogSchema);

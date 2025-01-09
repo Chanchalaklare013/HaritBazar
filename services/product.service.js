@@ -78,7 +78,7 @@ export class ProductServices {
 
   static async deleteProduct(productId) {
     try {
-      const isExist = await this.getProductById(productId);
+      const isExist = await Product.findByIdAndDelete(productId);
       if (isExist) {
         const product = Product.updateOne(
           { _id: productId },
@@ -142,6 +142,5 @@ export class ProductServices {
         console.log(err);
      }
   }
-
-
+  
 }

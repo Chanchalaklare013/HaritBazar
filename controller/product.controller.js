@@ -15,7 +15,7 @@ export const bulkAdd = async (request, response, next) => {
 
 export const getAllProduct = async (request, response, next) => {
     try{
-        const products = ProductServices.getAllProducts();
+        const products = await ProductServices.getAllProducts();
         if(products){
             response.json({product: products});
         }else{
@@ -27,6 +27,7 @@ export const getAllProduct = async (request, response, next) => {
 
     }
 }
+
 export const getAllProductOfVendor = async (request, response, next) => {
     try{
         const vendorId = request.params.vendorId;
@@ -42,11 +43,12 @@ export const getAllProductOfVendor = async (request, response, next) => {
 
     }
 }
+
 export const addProduct = async (request, response, next) => {
     try{
-        const isAdded = ProductServices.addProduct(request.body);
+        const isAdded = await ProductServices.addProduct(request.body);
         if(isAdded){
-            response.json({message: "Product added succesfully"});
+            response.send({message: "Product added succesfully"});
         }else{
             response.send("error while adding products");
         }
@@ -56,10 +58,11 @@ export const addProduct = async (request, response, next) => {
 
     }
 }
+
 export const deleteProduct = async (request, response, next) => {
     try{
       const prodcutId = request.params.productId;
-      const isDeleted  = ProductServices.deleteProduct(prodcutId);
+      const isDeleted  = await ProductServices.deleteProduct(prodcutId);
 
       if(isDeleted){
         response.send("product deleted successfully");
@@ -71,6 +74,7 @@ export const deleteProduct = async (request, response, next) => {
 
     }
 }
+
 export const updateProduct = async (request, response, next) => {
     try{
         const prodcutId = request.params.productId;
@@ -86,6 +90,7 @@ export const updateProduct = async (request, response, next) => {
 
     }
 }
+
 export const productRecommendation = async (request, response, next) => {
     try{
         const prodcutId = request.params.productId;
@@ -101,6 +106,7 @@ export const productRecommendation = async (request, response, next) => {
 
     }
 }
+
 export const searchProduct = async (request, response, next) => {
     try{
          const query = request.body.query;

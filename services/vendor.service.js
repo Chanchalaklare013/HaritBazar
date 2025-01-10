@@ -20,12 +20,12 @@ import { Vendor } from "../models/vendor.model.js";
     }
 
 
-  static  async viewVendors(data) {
+  static  async viewVendors() {
         try {
-            const viewVendor = new Vendor(data);
-            await viewVendor.findMany();
-           if( viewVendor){
-            return true;
+            
+           const vendor= await Vendor.find();
+           if( vendor){
+            return vendor;
            }
            else{
             return false;
@@ -36,12 +36,14 @@ import { Vendor } from "../models/vendor.model.js";
     }
 
 
- static  async updateVendor(data) {
+ static  async updateVendor(data,vendorId) {
       try{
-        const id = request.params.id;
-        const update = request.body;
-        await Vendor.updateMany(update, {where: {id}})
-        return response.status(200).json({ message: "Vendor updated successfully" });
+        const isUpdate = await Vendor.updateOne({_id: vendorId}, data)
+        if(isUpdate){
+            return true;
+        }else{
+            return false;
+        }
       }
       catch(err){
         console.log(err);
@@ -49,14 +51,14 @@ import { Vendor } from "../models/vendor.model.js";
       }
    }
 
-   static async deleteVendor(request, response, next) {
+   static async deleteVendor( vendorId) {
      try {
-       const id = request.params.id;
-       const result = await User.deleteOne({ _id: id });
-       if (result.deletedCount > 0) {
-         return response.status(200).json({ message: "User deleted successfully" });
+       
+       const result = await User.deleteOne({ _id: vendorId });
+       if (result) {
+         return true;
        } else {
-         return response.status(404).json({ message: "User not found" });
+         return false;
        }
      } catch (err) {
        console.log(err);
